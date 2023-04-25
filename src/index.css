@@ -12,6 +12,8 @@ body{
 
 .app {
   background-color: #343541;
+  display: flex;
+
 }
 
 .side-bar{
@@ -29,6 +31,24 @@ button {
   border-radius: 5px;
   padding: 10px;
   margin: 10px;
+}
+
+nav {
+  border-top: solid 0.5px rgba(255, 255, 255, 0.5);
+  padding: 10px;
+  margin: 10px;
+}
+
+.history {
+  padding: 10px;
+  margin: 10px;
+  height: 100%;
+}
+
+.history li{
+  list-style-type: none;
+  padding: 15px 0;
+  cursor: pointer;
 }
 
 .main{
