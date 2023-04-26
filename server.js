@@ -1,13 +1,16 @@
 const PORT = 8000
 const express = require('express')
 const cors = require('cors')
+const fetch = require("node-fetch");
 const app = express()
 app.use(express.json())
 app.use(cors())
+require('dotenv').config()
 
-const API_KEY = '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'
+const API_KEY = process.env.API_KEY
 
-app.post('/completions' , (req,res) => {
+
+app.post('/completions' , async (req,res) => {
     const options = {
         method:"POST",
         headers: {
@@ -16,16 +19,18 @@ app.post('/completions' , (req,res) => {
         },
         body: JSON.stringify({
             model: "gpt-3.5-turbo",
-            messages: [{role: "user", content: "how are you"}],
+            messages: [{role: "user", content: req.body.message}],
             max_tokens:100,
         })
     }
 
     try{
-        fetch('https://api.openai.com/v1/chat/completions' , options)
+        const response = await fetch('https://api.openai.com/v1/chat/completions' , options)
+        const data = await response.json()
+        res.send(data)
     } catch (error) {
         console.error(error);
     }
 })
 
-app.listen(PORT, () => console.log('Your server is running on PORT' + PORT))
+app.listen(PORT, () => console.log('Your server is running on PORT ' + PORT))
