@@ -9,9 +9,14 @@ const App = () => {
   const createNewChat = () => {
     setMessage(null)
     setValue("")
-
+    setCurrentTitle(null)
   }
 
+  const handleClick =(uniqueTitles) => {
+    setCurrentTitle(uniqueTitles)
+    setMessage(null)
+    setValue("")
+  }
 
   const getMessages =async () => {
     const options = {
@@ -26,8 +31,8 @@ const App = () => {
     try{
       const response = await fetch('http://localhost:8000/completions', options)
       const data =await response.json()
-      console.log(data)
-      setMessage(data.choices[0].message)
+      // console.log(data)
+      setMessage(data?.choices[0].message)
     } catch(error) {
       console.error(error)
     }
@@ -71,7 +76,7 @@ const App = () => {
       <section className="side-bar">
         <button onClick={createNewChat}>+ New Chat</button>
         <ul className="history">
-          <li>BLUGH</li>
+          { uniqueTitles?.map((uniqueTitles,index) => <li key={index} onClick={() => handleClick(uniqueTitles)}>{uniqueTitles}</li>)}
         </ul>
         <nav>
           <p>Made by Parth</p>
@@ -84,7 +89,7 @@ const App = () => {
         <ul className="feed">
           {currentChat?.map((chatMessage , index) => <li key={index}>
             <p className="role">{chatMessage.role}</p>
-            <p>{chatMessage.message}</p>
+            <p>{chatMessage.content}</p>
           </li>)}
         </ul>
         <div className="bottom-section">
